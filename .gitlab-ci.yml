@@ -1,0 +1,28 @@
+image: maven:3.9.9-eclipse-temurin-21
+
+stages:
+  - test
+
+variables:
+  MAVEN_OPTS: "-Dmaven.repo.local=.m2/repository"
+
+cache:
+  paths:
+    - .m2/repository
+
+parabank_regression_tests:
+  stage: test
+  before_script:
+    - apt-get update && apt-get install -y wget gnupg
+    - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg
+    - echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main' | tee /etc/apt/sources.list.d/google-chrome.list
+    - apt-get update && apt-get install -y google-chrome-stable
+  script:
+    - mvn clean test -Dheadless=true
+  artifacts:
+    when: always
+    expire_in: 14 days
+    paths:
+      - test-output/reports/ExecutionReport.html
+      - test-output/logs/execution.log
+      - test-output/screenshots/
