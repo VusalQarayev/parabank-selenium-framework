@@ -1,0 +1,27 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="ParaBank Automation Suite" parallel="methods" thread-count="2">
+
+    <listeners>
+        <listener class-name="com.parabank.listeners.TestListener"/>
+        <listener class-name="com.parabank.listeners.AnnotationTransformer"/>
+    </listeners>
+
+    <test name="Database Initialization">
+        <classes>
+            <class name="com.parabank.base.SuiteSetup"/>
+        </classes>
+    </test>
+
+    <test name="Authentication and Registration Tests">
+        <classes>
+            <class name="com.parabank.tests.RegistrationTest"/>
+            <class name="com.parabank.tests.LoginTest"/>
+            <class name="com.parabank.tests.AccountTest"/>
+            <class name="com.parabank.tests.TransferFundsTest"/>
+            <class name="com.parabank.tests.BillPayTest"/>
+            <class name="com.parabank.tests.FindTransactionsTest"/>
+            <class name="com.parabank.tests.LoanRequestTest"/>
+        </classes>
+    </test>
+
+</suite>
